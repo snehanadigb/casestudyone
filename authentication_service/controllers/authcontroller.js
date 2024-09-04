@@ -30,7 +30,7 @@ const register = async (req, res) => {
         await sendEmailWithOTP(customer.email, "Email Verification OTP", otp);
         console.log("OTP sent");
 
-        res.status(201).json({ message: 'Customer registered. OTP sent for email verification.' });
+        res.status(201).json({ message: 'Customer registered. OTP sent for email verification.', customerId: customer.id })
     } catch (error) {
         console.error('Error registering customer:', error);
         res.status(500).json({ message: 'Error registering customer', error });
@@ -52,7 +52,8 @@ const verifyEmailWithOTP = async (req, res) => {
                 data: { isVerified: true, otp: null }, // Clear the OTP after successful verification
             });
 
-            res.json({ message: 'Email verified successfully' });
+            res.status(200).json({ message: 'Email verified successfully', customerId: customer.id });
+
         } else {
             res.status(400).json({ message: 'Invalid OTP' });
         }

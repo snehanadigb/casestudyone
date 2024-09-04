@@ -22,4 +22,22 @@ model Customer {
   address     String
   otp         Int?     // Store OTP temporarily
   isVerified  Boolean  @default(false) // Track verification status
+  documents  Document[]
+  services   Service[]
+}
+
+model Document {
+  id              Int      @id @default(autoincrement())
+  filePath        String
+  verificationStatus String @default("Pending")
+  customerId      Int
+  customer        Customer @relation(fields: [customerId], references: [id])
+}
+
+model Service {
+  id         Int       @id @default(autoincrement())
+  name       String
+  isActive   Boolean   @default(false)
+  customerId Int
+  customer   Customer @relation(fields: [customerId], references: [id])
 }
