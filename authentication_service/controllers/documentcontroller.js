@@ -29,7 +29,7 @@ const saveDocument = async (filePath, customerId) => {
         const document = await prisma.document.create({
             data: {
                 filePath: filePath,
-                customerId: 14,
+                customerId: 15,
                 verificationStatus: 'Pending' // Assuming 'Pending' is the initial status
             }
         });
