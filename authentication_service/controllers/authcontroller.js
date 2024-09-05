@@ -27,10 +27,12 @@ const register = async (req, res) => {
         });
 
         console.log("Customer registered, sending OTP...");
+        
         await sendEmailWithOTP(customer.email, "Email Verification OTP", otp);
         console.log("OTP sent");
 
         res.status(201).json({ message: 'Customer registered. OTP sent for email verification.', customerId: customer.id })
+        
     } catch (error) {
         console.error('Error registering customer:', error);
         res.status(500).json({ message: 'Error registering customer', error });

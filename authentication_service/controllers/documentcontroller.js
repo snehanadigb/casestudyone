@@ -29,7 +29,7 @@ const saveDocument = async (filePath, customerId) => {
         const document = await prisma.document.create({
             data: {
                 filePath: filePath,
-                customerId: 15,
+                customerId: parseInt(customerId),
                 verificationStatus: 'Pending' // Assuming 'Pending' is the initial status
             }
         });
@@ -44,7 +44,7 @@ const saveDocument = async (filePath, customerId) => {
 router.post('/upload', upload.single('document'), async (req, res) => {
     try {
         const customerId = req.query.customerId;
-
+        console.log(customerId);
         if (!req.file) {
             console.error('No file uploaded');
             return res.status(400).json({ message: 'No file uploaded' });

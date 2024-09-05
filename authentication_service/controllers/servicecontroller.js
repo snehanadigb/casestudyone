@@ -1,11 +1,23 @@
+
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const sendEmail = require('../utils/emailservice');
 
-const selectService = async (req, res) => {
-    const { customerId } = req;
-    const { serviceName } = req.body;
+const getAllServices = async (req, res) => {
+    try {
+        const services = await prisma.service.findMany({
+            include: {
+                customer: true // Include customer details in the response
+            }
+        });
+        res.status(200).json(services);
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to retrieve services', error });
+    }
+};
 
+const selectService = async (req,res) => {
+    const {serviceName,customerId}=req.body;
     try {
         const service = await prisma.service.create({
             data: {
@@ -13,10 +25,9 @@ const selectService = async (req, res) => {
                 customerId: parseInt(customerId)
             }
         });
-
-        // Send email confirming service selection
-        const customer = await prisma.customer.findUnique({ where: { id: customerId } });
-        await sendEmail(customer.email, 'Service Selection', `You have selected the service: ${serviceName}`);
+       // console.log(customerId);
+        //const customer = await prisma.customer.findUnique({ where: { id: customerId } });
+        //await sendEmail(customer.email, 'Service Selection', `You have selected the service: ${serviceName}`);
 
         res.status(201).json({ message: 'Service selected successfully', service });
     } catch (error) {
@@ -33,7 +44,6 @@ const activateService = async (req, res) => {
             data: { isActive: true }
         });
 
-        // Send email confirming service activation
         const customer = await prisma.customer.findUnique({ where: { id: service.customerId } });
         await sendEmail(customer.email, 'Service Activation', 'Your service has been successfully activated.');
 
@@ -43,4 +53,5 @@ const activateService = async (req, res) => {
     }
 };
 
-module.exports = { selectService, activateService };
+module.exports = { getAllServices, selectService, activateService };
+
