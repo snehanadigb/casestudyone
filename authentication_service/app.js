@@ -6,6 +6,7 @@ const documentcontroller = require('./controllers/documentcontroller');
 const serviceRoutes = require('./routes/serviceroutes');
 const customerRouter=require('./routes/customerroutes');
 const adminRouter=require('./controllers/admincontroller');
+//const authenticateJWT=require('../middleware/authmiddleware');
 const app = express();
 app.use(cors());
 app.use(express.json());

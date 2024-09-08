@@ -48,9 +48,9 @@ router.post('/login', async (req, res) => {
         }
 
         // Generate JWT token (optional)
-        const token = jwt.sign({ adminId: admin.id }, 'your_jwt_secret', { expiresIn: '1h' });
+        const token = jwt.sign({ adminId: admin.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-        res.status(200).json({ message: 'Login successful', token });
+        res.status(200).json({ message: 'Login successful', token:token });
     } catch (error) {
         console.error('Error logging in admin:', error);
         res.status(500).json({ message: 'Internal server error' });
