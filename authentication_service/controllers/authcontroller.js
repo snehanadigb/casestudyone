@@ -25,13 +25,14 @@ const register = async (req, res) => {
                 isVerified: false // Set verification status to false initially
             },
         });
-
+      
         console.log("Customer registered, sending OTP...");
         
         await sendEmailWithOTP(customer.email, "Email Verification OTP", otp);
         console.log("OTP sent");
-
-        res.status(201).json({ message: 'Customer registered. OTP sent for email verification.', customerId: customer.id })
+        const token = jwt.sign({ id: customer.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        res.status(201).json({ message: 'Customer registered. OTP sent for email verification.', customerId: customer.id ,token:token});
+        
         
     } catch (error) {
         console.error('Error registering customer:', error);
