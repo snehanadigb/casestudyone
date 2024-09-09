@@ -22,6 +22,8 @@ model Customer {
   address     String
   otp         Int?     // Store OTP temporarily
   isVerified  Boolean  @default(false) // Track verification status
+  resetToken        String?
+  resetTokenExpiry  DateTime?
   documents  Document[]
   services   Service[]
 }

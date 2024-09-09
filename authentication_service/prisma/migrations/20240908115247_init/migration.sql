@@ -9,6 +9,8 @@ CREATE TABLE `Customer` (
     `address` VARCHAR(191) NOT NULL,
     `otp` INTEGER NULL,
     `isVerified` BOOLEAN NOT NULL DEFAULT false,
+    `resetToken` VARCHAR(191) NULL,
+    `resetTokenExpiry` DATETIME(3) NULL,
 
     UNIQUE INDEX `Customer_email_key`(`email`),
     PRIMARY KEY (`id`)
